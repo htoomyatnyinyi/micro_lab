@@ -1,52 +1,39 @@
-// slice.js
+// authSlice.js before edit
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  username: "",
-  password: "",
-  loggedIn: true,
-  authToken: null,
+  s_username: "",
+  s_email: "",
+  s_password: "",
+  s_token: null,
+  s_isLoggedIn: false,
 };
 
 const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setUsername: (state, action) => {
-      state.username = action.payload;
+    signin: (state, action) => {
+      console.log(action.payload);
+      // const { email, password } = action.payload;
+      // console.log(email, password);
+
+      state.s_email = action.payload.email;
+      state.s_password = action.payload.password;
+      state.s_isLoggedIn = action.payload.isLoggedIn;
     },
-    setPassword: (state, action) => {
-      state.password = action.payload;
+    settoken: (state, action) => {
+      state.s_token = action.payload;
     },
-    setLoggedIn: (state, action) => {
-      state.loggedIn = action.payload;
-    },
-    setauthToken: (state, action) => {
-      state.authToken = action.payload;
-    },
-    setLogin: (state, action) => {
-      state.username = action.payload;
-      state.password = action.payload;
-    },
-    setAuth: (state, action) => {
-      state.loggedIn = action.payload;
-      state.authToken = action.payload;
-    },
-    setLogout: (state) => {
-      // // Reset authentication-related state on sign-out
-      state.username = "";
-      state.password = "";
-      state.loggedIn = false;
-      state.authToken = null;
+    signout: (state) => {
+      state.s_email = "";
+      state.s_password = "";
+      state.s_token = null;
+      state.s_isLoggedIn = false;
     },
   },
 });
 
-export const {
-  setUsername,
-  setPassword,
-  setLoggedIn,
-  setauthToken,
-  setLogout,
-} = authSlice.actions;
+export const { signin, signout, settoken } = authSlice.actions;
+
 export default authSlice.reducer;

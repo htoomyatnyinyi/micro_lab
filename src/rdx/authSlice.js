@@ -1,4 +1,4 @@
-// authSlice.js
+// authSlice.js save it in slice.js
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -7,6 +7,9 @@ const initialState = {
   s_password: "",
   s_token: null,
   s_isLoggedIn: false,
+  id: null,
+  iat: null, // initiated time
+  exp: null, // expire time
 };
 
 const authSlice = createSlice({
@@ -25,6 +28,16 @@ const authSlice = createSlice({
     settoken: (state, action) => {
       state.s_token = action.payload;
     },
+    setprofile: (state, action) => {
+      console.log(action.payload, "from setProfile");
+      state.s_username = action.payload.profile.username;
+      state.s_email = action.payload.profile.email;
+      state.s_password = action.payload.profile.password;
+      state.s_isLoggedIn = action.payload.isLoggedIn;
+      state.id = action.payload.profile.userId;
+      state.iat = action.payload.profile.iat;
+      state.exp = action.payload.profile.exp;
+    },
     signout: (state) => {
       state.s_email = "";
       state.s_password = "";
@@ -34,6 +47,6 @@ const authSlice = createSlice({
   },
 });
 
-export const { signin, signout, settoken } = authSlice.actions;
+export const { signin, signout, settoken, setprofile } = authSlice.actions;
 
 export default authSlice.reducer;

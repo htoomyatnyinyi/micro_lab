@@ -9,6 +9,12 @@ import Auth from './Auth'
 const Home = () => {
   const { s_username, s_isLoggedIn } = useSelector(state => state.s_auth)
 
+  const handelSignOut = () => {
+    localStorage.removeItem('jwtToken')
+    console.log('Token Already Removed!')
+    // dispatch(signout())
+    navigate('/')
+  }
   return (
     <div>
       {/* <div className='bg-slate-400 h-screen p-2'>
@@ -31,6 +37,7 @@ const Home = () => {
           (
             <div>
               <h1>Welcome New User .. You need to register before start using our platform..</h1>
+              <button onClick={handelSignOut}>SignOut</button>
               <Auth />
             </div>
           )

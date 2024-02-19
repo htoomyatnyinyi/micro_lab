@@ -2,11 +2,12 @@ import React, { useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { signin, settoken } from '../rdx/authSlice.js'
 import axios from 'axios'
+import { useNavigate } from 'react-router'
 
 const Auth = () => {
   const e_ref = useRef(null)
   const p_ref = useRef(null)
-
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   console.log(useSelector(state => state.s_auth))
   const { s_email, s_password } = useSelector(state => state.s_auth)
@@ -33,7 +34,7 @@ const Auth = () => {
 
         dispatch(signin({ email, password, isLoggedIn: true })) // signin.s_email , signin.s_password = action.payload
         dispatch(settoken(jwtToken))
-
+        navigate('/dashboard')
 
       } catch (err) {
         console.error('SignIn Fail', err);

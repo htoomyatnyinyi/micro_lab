@@ -1,13 +1,13 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { signin, signout } from '../rdx/authSlice'
+import { setprofile } from '../rdx/authSlice'
 import axios from 'axios'
 
 const Dashboard = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { s_username, s_isLoggedIn } = useSelector((state) => state.s_auth)
+  const { s_email, s_isLoggedIn } = useSelector((state) => state.s_auth)
 
 
   // Example of storing and sending an authentication token in a front-end application
@@ -16,15 +16,13 @@ const Dashboard = () => {
   console.log('From Web Storage ', o_jwtToken)
 
   const getSecretData = async () => {
-    console.log(`Bearer ${o_jwtToken}`)
-    // const a = axios.defaults.headers.common['Authorization']
-    // const bearer = `Bearer ${o_jwtToken}`
-    // console.log(a, 'And', bearer)
+    // console.log(`Bearer ${o_jwtToken}`)
 
     axios.defaults.headers.common['Authorization'] = `Bearer ${o_jwtToken}`
     const res_data = await axios.get('http://localhost:8080/secret')
-    console.log(res_data.data.secret, 'from secret data backend')
-    // dispatch(signin({ s_username: res_data.data }))
+    // console.log(res_data.data.secret, 'from secret data backend')
+    console.log(res_data.data.decodedData, 'from secret data backend')
+    dispatch(setprofile({ profile: res_data.data.decodedData, isLoggedIn: true, s_token: o_jwtToken }))
     // try {
     // } catch (err) {
     //   console.error('Not Working', err)
@@ -35,8 +33,8 @@ const Dashboard = () => {
   const handelSignOut = () => {
     localStorage.removeItem('jwtToken')
     console.log('Token Already Removed!')
-    dispatch(signout())
-    // navigate('/')
+    // dispatch(signout())
+    navigate('/')
   }
 
 
@@ -44,11 +42,11 @@ const Dashboard = () => {
     <div>
       <div className='h-screen bg-slate-400 rounded-md p-4 m-1'>
         <Link to='/' className='h-screen bg-slate-100 rounded-md p-2 m-1'>Go Home</Link>
-        <button onClick={getSecretData}>Get Secret Data</button>
+        <button onClick={getSecretData}>Get Secret Data for  </button>
         {s_isLoggedIn ?
           <div>
             <button onClick={handelSignOut} className='bg-black p-2 m-1 '>SignOut</button>
-            <h1 className='h-screen bg-cyan-400 rounded-md p-4 m-1'>Welcom to Profile Dashboard {s_username}</h1>
+            <h1 className='h-screen bg-cyan-400 rounded-md p-4 m-1'>Welcom to Profile Dashboard {s_email}</h1>
           </div>
           :
           <div >
