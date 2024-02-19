@@ -1,0 +1,21 @@
+POST http://localhost:8080/mlab/signup
+Content-Type: application/json
+
+{
+  "username" : "mm",
+  "password": "mmmm",
+  "email": "mm@mm.com"
+}
+
+
+###
+POST http://localhost:8080/mlab/signin
+Content-Type: application/json
+
+{
+  "password": "mmmm",
+  "email": "mm@mm.com"
+}
+
+
+###
